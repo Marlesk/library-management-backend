@@ -1,0 +1,15 @@
+# Node.js dependencies
+node_modules/
+
+# Test coverage
+coverage/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# IDEs and system files
+.vscode/
+.DS_Store
