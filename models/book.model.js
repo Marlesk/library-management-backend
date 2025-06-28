@@ -5,12 +5,30 @@ let bookSchema = new Schema({
 
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
 
   author: {
     type: [String],
-    default: ['Unknown']
+    required: true
+  },
+
+  publisher: {
+    type: String,
+    trim: true
+  },
+
+  year: {
+    type: Number,
+    default: ''
+  },
+
+  isbn: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true
   },
 
   description: {
@@ -23,14 +41,8 @@ let bookSchema = new Schema({
     default: [],
   },
 
-  year: {
-    type: Number,
-    default: ''
-  },
-
-  isbn: {
-    type: String,
-    default: '',
+  page: {
+    type: Number
   },
 
   coverImage: {
