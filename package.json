@@ -9,17 +9,26 @@
     "dev": "node --env-file=.env --watch server.js"
   },
   "jest": {
-    "collectCoverage": true, 
-    "coveragePathIgnorePatterns": ["/node_modules/","/logs"], 
-    "setupFiles": ["dotenv/config"],
-    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"]
+    "collectCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/logs"
+    ],
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ]
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.10.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "google-auth-library": "^10.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "mongoose-to-swagger": "^1.5.1",
