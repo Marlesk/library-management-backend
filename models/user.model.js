@@ -17,7 +17,7 @@ let userSchema = new Schema({
 
   username: {
     type: String,
-    required: [true, "Username is required field"],
+    //required: [true, "Username is required field"],
     max: 20,
     unique: true,
     trim: true,
@@ -35,7 +35,7 @@ let userSchema = new Schema({
 
   password: {
     type: String,
-    required: [true, "Password is required field"],
+    //required: [true, "Password is required field"],
     max: 20
   },
 
