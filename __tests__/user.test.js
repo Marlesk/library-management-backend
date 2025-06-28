@@ -15,7 +15,7 @@ describe('Request for /api/users/register', () => {
         lastname: 'Alexopoulos',
         username: 'fanis',
         email: 'fanisalex@gmail.com',
-        password: '12345'
+        password: 'Test123!'
       })
     
     expect(res.statusCode).toBe(201)
@@ -30,7 +30,7 @@ describe('Request for /api/users/register', () => {
         lastname: 'Georgiou',
         username: 'fanis',
         email: 'fanisgeo@gmail.com',
-        password: '12345'
+        password: 'Test123!'
       })
     
     expect(res.statusCode).toBe(409)
@@ -45,7 +45,7 @@ describe('Request for /api/users/register', () => {
         lastname: 'Alexiou',
         username: 'fanis.alex',
         email: 'fanisalex@gmail.com',
-        password: '12345'
+        password: 'Test123!'
       })
     
     expect(res.statusCode).toBe(409)
@@ -60,7 +60,7 @@ describe('Request for /api/users/register', () => {
         lastname: 'Alexiou',
         username: 'fanis.alex',
         email: 'fanisalexiou@gmail.com',
-        password: '12345',
+        password: 'Test123!',
         role: 'admin'
       })
     
@@ -69,6 +69,22 @@ describe('Request for /api/users/register', () => {
   })
 
   it('Email format is not correct', async() => {
+    const res = await request(app)
+      .post('/api/users/register')
+      .send({
+        firstname: 'Fanis',
+        lastname: 'Alexiou',
+        username: 'fanis.alexiou',
+        email: 'fanisalexiou@gmail',
+        password: 'Test123!',
+        role: 'admin'
+      })
+    
+    expect(res.statusCode).toBe(400)
+    expect(res.body.status).not.toBeTruthy()
+  })
+
+  it('Password format is not correct', async() => {
     const res = await request(app)
       .post('/api/users/register')
       .send({
@@ -87,13 +103,13 @@ describe('Request for /api/users/register', () => {
 
   const invalidPayloads = [
     { missingField: 'firstname', body: { firtsname: '', lastname: 'usertest', username: 'usertest', 
-      email: 'usertest@example.com', password: '12345' } },
+      email: 'usertest@example.com', password: 'Test123!' } },
     { missingField: 'lastname', body: { firstname: 'usertest', lastname: '', username: 'usertest', 
-      email: 'usertest@example.com', password: '12345' } },
+      email: 'usertest@example.com', password: 'Test123!' } },
     { missingField: 'username', body: { firstname: 'usertest', lastname: 'usertest', username: '',
-      email: 'usertest@example.com', password: '12345' } },
+      email: 'usertest@example.com', password: 'Test123!' } },
     { missingField: 'email', body: { firstname: 'usertest', lastname: 'usertest', 
-      username: 'usertest', email: '', password: '12345' } },
+      username: 'usertest', email: '', password: 'Test123!' } },
     { missingField: 'password', body: { firstname: 'usertest', lastname: 'usertest', username: 'usertest',
       email: 'usertest@example.com', password: '' } }
   ];
@@ -119,7 +135,7 @@ describe('Request for /api/users/register', () => {
         lastname: 'Alexopoulou',
         username: 'fani_al',
         email: 'fanial@gmail.com',
-        password: '12345'
+        password: 'Test123!'
       })
 
     expect(res.statusCode).toBe(500)
@@ -161,7 +177,7 @@ describe('Request for /api/users/profile', () => {
 
   const updatePayloads = [
     { updateField: 'email', body: { email: 'userupdated@example.com' } },
-    { updateField: 'password', body: { password: '123456' } },
+    { updateField: 'password', body: { password: 'Test1234!' } },
   ]
 
   updatePayloads.forEach(({ updateField, body }) => {
@@ -187,7 +203,7 @@ describe('Request for /api/users/profile', () => {
   })
 
   const missingUpdateField = [
-    { missingField: 'email', body: { email: '', password: '123456' } },
+    { missingField: 'email', body: { email: '', password: 'Test1234!' } },
     { missingField: 'password', body: { email: 'usertestupdate@example.com', password: '' } }
   ];
 
@@ -207,6 +223,16 @@ describe('Request for /api/users/profile', () => {
       .patch('/api/users/profile')
       .set('Authorization', `Bearer ${userToken}`)
       .send({ email: 'fanisalexiou@gmail' })
+    
+    expect(res.statusCode).toBe(400)
+    expect(res.body.status).not.toBeTruthy()
+  })
+
+   it('Paaword format is not correct', async() => {
+    const res = await request(app)
+      .patch('/api/users/profile')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ password: '12345' })
     
     expect(res.statusCode).toBe(400)
     expect(res.body.status).not.toBeTruthy()

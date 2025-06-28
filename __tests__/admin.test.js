@@ -1,11 +1,11 @@
 // npx jest admin.test.js
 
-const getAdminToken = require('../helpers/getAdminToken')
-const getUserToken = require('../helpers/getUserToken')
 const request = require('supertest')
 const app = require('../app')
 const userService = require('../services/user.service')
 const adminService = require('../services/admin.service')
+const getAdminToken = require('../helpers/getAdminToken')
+const getUserToken = require('../helpers/getUserToken')
 const getExpiredUserToken = require('../helpers/getExpiredUserToken')
 
 describe("Request for /api/admin/users", () => {
@@ -61,9 +61,9 @@ describe("Request for /api/admin/users", () => {
       expect(res.body.status).not.toBeTruthy()
     })
 
-   it('Failed to fetch all users', async () => {
+   it('Failed to fetch all users', async() => {
     const spy = jest.spyOn(adminService, 'findAllUsers')
-    spy.mockRejectedValue(new Error('Simulated service failure'))
+    spy.mockRejectedValue(new Error('Server Error'))
 
     const res = await request(app)
       .get('/api/admin/users')
@@ -114,7 +114,7 @@ describe("Request for /api/admin/users/username/:username", () => {
     expect(res.body.status).not.toBeTruthy()
   })
 
-  it('Failed to find the user', async () => {
+  it('Failed to find the user', async() => {
     const spy = jest.spyOn(adminService, 'findByUsername')
     spy.mockRejectedValue(new Error('Server error'))
 
@@ -161,7 +161,7 @@ describe("Request for /api/admin/users/username/:username", () => {
     expect(res.body.status).not.toBeTruthy()
   })
 
-  it('Failed to delete the user', async () => {
+  it('Failed to delete the user', async() => {
     const spy = jest.spyOn(adminService, 'findByUsernameAndDelete')
     spy.mockRejectedValue(new Error('Sever error'))
 
@@ -248,7 +248,7 @@ describe("Request for /api/admin/users/email/:email", () => {
     expect(res.body.status).not.toBeTruthy()
   })
 
-  it('Failed to find the user', async () => {
+  it('Failed to find the user', async() => {
     const spy = jest.spyOn(adminService, 'findByEmail')
     spy.mockRejectedValue(new Error('Server error'))
 
