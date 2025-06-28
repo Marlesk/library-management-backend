@@ -1,18 +1,20 @@
 module.exports = {
   "/api/auth/login": {
     post: {
+      security: [],
       tags: ["Auth"],
       summary: "Login",
-      description: "Login User",
+      description: "Authenticate user with username and password. Returns a JWT access token.",
       requestBody: {
-        description: "User sends username and password and receives a JWT token",
+        required: true,
+        description: "Username and password are required to log in",
         content: {
-          "application/json": {
+          "application/x-www-form-urlencoded": {
             schema: {
               type: "object",
               properties: {
                 username: { type: "string" },
-                password: { type: "string" }
+                password: { type: "string", format: "password" }
               },
               required: ["username", "password"]
             }
@@ -32,4 +34,4 @@ module.exports = {
       }
     }
   }
-};
+}

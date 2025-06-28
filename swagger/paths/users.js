@@ -2,11 +2,13 @@ module.exports = {
 
   "/api/users/register": {
      post: {
+      security: [],
       tags: ["Users"],
       summary: "Create user",
-      description: "Data of users that we want to create",
+      description: "Creates a new user account",
       requestBody: {
-        description: "Json with user data",
+        required: true,
+        description: "JSON object containing user details.",
         content: {
           "application/json": {
             schema: {
@@ -15,8 +17,11 @@ module.exports = {
                 firstname: { type: "string" },
                 lastname: { type: "string" },
                 username: { type: "string" },
-                email: { type: "string" },
-                password: { type: "string" },
+                email: { type: "string", format: "email" },
+                password: { 
+                  type: "string", 
+                  example: "Test123!"
+                },
                 role: {
                   type: "string",
                   enum: ["admin", "user"],
@@ -30,13 +35,13 @@ module.exports = {
       },
       responses: {
         201: {
-          description: "User created successfully.",
+          description: "User created successfully",
         },
         409: {
-          description: "Duplicate email or username or admin user.",
+          description: "Conflict. Email or username already exists, or admin user already registered",
         },
         400: {
-          description: "Bad request – missing required fields or invalid data format.",
+          description: "Some required fields are missing or data format is invalid. Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special symbol (!, #, @, $).",
         }
       }
     }
@@ -46,10 +51,10 @@ module.exports = {
     get: {
       tags: ["Users"],
       summary: "View the logged-in user's profile",
-      description: "Returns full details of the logged-in user",
+      description: "Retrieves the authenticated user's profile information.",
       responses: {
         200: {
-          description: "User profile data",
+          description: "User profile retrieved successfully",
           content: {
             "application/json": {
                 schema: {
@@ -59,31 +64,34 @@ module.exports = {
           }
         },
         400: {
-          description: "Failed to fetch profile.",
+          description: "Bad request. Unable to retrieve user profile",
         },
         403: {
-          description: "Access denied. No token provided."
+          description: "Access denied. Authentication token is missing"
         },
         401: {
-          description: "Invalid or expired token."
+          description: "Unauthorized. Token is invalid or has expired"
         }
       }
     },
 
     patch: {
       tags: ["Users"],
-      summary: "Update logged-in user's details",
-      description: "Update user's details (only send fields you want to change)",
+      summary: "Update the logged-in user's profile",
+      description: "Updates the authenticated user's profile. Include only the fields you wish to change.",
       requestBody: {
-        description: "Data of user to update",
+        description: "User fields to update",
         content: {  
             "application/json": {
               schema: {
                 type: "object",
                 properties: {
-                  username: {type: "string"},
-                  email: {type: "string"},
-                  password: {type: "string"}
+                  email: { type: "string", format: "email" },
+                  password: { 
+                    type: "string", 
+                    format: "password",
+                    example: "Test123!"
+                  }
                 }
               }
             }
@@ -91,36 +99,36 @@ module.exports = {
       },
       responses: {
         200: {
-          description: "User updated successfully."
+          description: "Profile updated successfully"
         },
         409: {
-        description: "Duplicate email.",
+        description: "Conflict. Email already exists",
         },
         400: {
-          description: "Bad request – missing required fields or invalid data format.",
+          description: "Bad request. Invalid fields.  Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special symbol (!, #, @, $).",
         },
         403: {
-          description: "Access denied. No token provided."
+          description: "Forbidden. No token provided"
         },
         401: {
-          description: "Invalid or expired token."
+          description: "Unauthorized. Invalid or expired token"
         }
       }
     },
 
     delete: {
       tags: ["Users"],
-      summary: "Delete logged-in user's account",
-      description: "Deletes the account of the currently authenticated user.",
+      summary: "Delete the authenticated user's account",
+      description: "Permanently deletes the account of the currently logged-in user.",
       responses: {
         200: {
-          description: "Account deleted successfully.",
+          description: "User account deleted successfully",
         },
         401: {
-          description: "Invalid or expired token."
+          description: "Unauthorized. Invalid or expired token"
         },
         403: {
-          description: "Access denied. No token provided.",
+          description: "Forbidden. No token provided",
         }
       }
     }

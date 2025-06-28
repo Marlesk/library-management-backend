@@ -1,6 +1,8 @@
 const m2s = require('mongoose-to-swagger')
 const User = require('../../models/user.model')
+const Book = require('../../models/book.model')
 
 module.exports = {
-  User: m2s(User)
+  User: m2s(User),
+  Book: m2s(Book)
 }

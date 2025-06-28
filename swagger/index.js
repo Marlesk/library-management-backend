@@ -3,7 +3,10 @@ const securitySchemes = require('./components/securitySchemes')
 const tags = require('./tags')
 const users = require('./paths/users')
 const auth = require('./paths/auth')
-const admin = require('./paths/admin')
+const adminUsers = require('./paths/admin-users')
+const adminBooks = require('./paths/admin-books')
+const books = require('./paths/books')
+const googleAuth =  require('./paths/google-auth')
 
 module.exports = {
   "components": {
@@ -42,8 +45,11 @@ module.exports = {
 
   "paths": {
     ...users,
-    ...admin,
-    ...auth
+    ...books,
+    ...adminUsers,
+    ...adminBooks,
+    ...auth,
+    ...googleAuth
   } 
 
 }
