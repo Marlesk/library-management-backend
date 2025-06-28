@@ -11,7 +11,7 @@ const getExpiredUserToken = async () => {
       lastname: "Themeli",
       username: 'user1',
       email: 'user1@aueb.gr',
-      password: '12345', 
+      password: 'Test123!', 
       role: 'user'
     })
   }

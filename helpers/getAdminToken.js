@@ -10,7 +10,7 @@ const getAdminToken = async () => {
       lastname: 'Markaki',
       username: 'admin',
       email: 'admin@aueb.gr',
-      password: '12345', 
+      password: 'Test123!', 
       role: 'admin'
     })
   }
