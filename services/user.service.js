@@ -1,7 +1,7 @@
 const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 const apiError = require('../utils/ApiErrors')
-const emailFormat = require('../utils/validations')
+const validations = require('../utils/validations')
 
 exports.createUser = async(data) => {
   
@@ -13,8 +13,13 @@ exports.createUser = async(data) => {
   }
 
   // Έλεγχος για email validation
-  if (!emailFormat(data.email)) {
+  if (!validations.emailFormat(data.email)) {
     throw new apiError(400, "Email format is not correct.");
+  }
+
+  // Έλεγχος για password validation
+  if (!validations.passwordFormat(data.password)) {
+    throw new apiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
   }
 
   // Έλεγχος αν υπάρχει ήδη το username ή το email
@@ -80,8 +85,14 @@ exports.updateUserProfile = async(userId, data) => {
   }
 
   if (data.email) {
-    if (!emailFormat(data.email)) {
+    if (!validations.emailFormat(data.email)) {
       throw new apiError(400, "Email format is not correct.");
+    }
+  }
+
+  if (data.password) {
+    if (!validations.passwordFormat(data.password)) {
+      throw new apiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
     }
   }
 
