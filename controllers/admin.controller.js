@@ -46,11 +46,12 @@ exports.searchByEmail = async(req, res) => {
       res.status(200).json({ status: true, data: result })
     } else {
       logger.error('User not exist')
-      res.status(404).json({ status: false, message: 'User not exist' })
+      res.status(404).json({ status: false, message: 'Email not exist' })
     }
   } catch(error) {
     logger.error('Problem in finding user', error)
-    res.status(500).json({ status: false, message: 'Failed to find the user' })
+    const status = error.status || 500
+    res.status(status).json({ status: false, message: error.message || 'Internal Server Error'})
   }
 }
 

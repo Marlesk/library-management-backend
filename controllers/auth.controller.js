@@ -38,3 +38,28 @@ exports.login = async(req, res) => {
   }
 
 }
+
+exports.googleLogin = async(req, res) => {
+  logger.info('Google Login')
+  const code = req.query.code
+
+  if (!code) {
+    logger.error('Authorization code is missing')
+    return res.status(400).json({ status: false, message: 'Authorization code is missing'})
+  } 
+
+  try {
+    let user = await authService.googleAuth(code)
+    if (user) {
+      logger.info('Google Login successful', user)
+      res.status(200).json({ status: true, message: 'Login/register successfully', data: user})
+    } else {
+      logger.error('Problem in Google login')
+      res.status(401).json({ status: false, message: 'Problem in Google login'})
+    }
+  } catch (error) {
+    logger.error('Error during Google login:', error)
+    const status = error.status || 500
+    res.status(status).json({ status: false, message: error.message || 'Google authentication failed'})
+  }
+}
