@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 //const smartLogger = require('./loggers/smartLogger');
 
-const logger = require('./loggers/logger');
+const logger = require('./loggers/logger')
 
 const connectDB = async() => {
   try {

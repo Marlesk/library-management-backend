@@ -20,6 +20,9 @@ app.use('/api/admin', admin)
 const book = require('./routes/book.routes')
 app.use('/api/books', book)
 
+const borrow = require('./routes/borrow.routes')
+app.use('/api/borrows', borrow)
+
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger')
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, 
@@ -28,8 +31,5 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument,
     persistAuthorization: true
   }
 }))
-
-
-
 
 module.exports = app
