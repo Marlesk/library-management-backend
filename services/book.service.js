@@ -64,7 +64,7 @@ exports.createBook = async(data) => {
 }
 
 exports.findAllBooks = async() => {
-  return await Book.find()
+  return await Book.find().select('-_id')
 }
 
 exports.updateBookDetails = async(isbn, data) => {
