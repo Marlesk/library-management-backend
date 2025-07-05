@@ -5,6 +5,7 @@ const verifyRole = require('../middlewares/auth.middleware').verifyRole
 const verifyToken = require('../middlewares/auth.middleware').verifyToken
 const adminController = require('../controllers/admin.controller')
 const bookController = require('../controllers/book.controller')
+const borrowController = require('../controllers/borrow.controller')
 
 
 // Manage Users
@@ -23,5 +24,12 @@ router.post('/books', verifyToken, verifyRole('admin'), bookController.addBook)
 router.patch('/books/:isbn', verifyToken, verifyRole('admin'), bookController.updateBookByIsbn)
 
 router.delete('/books/:isbn', verifyToken, verifyRole('admin'), bookController.deleteByIsbn)
+
+// Manage Borrows
+
+router.get('/borrows', verifyToken, verifyRole('admin'), borrowController.viewAllRecordsBooks)
+
+router.post('/borrows/accept/:code', verifyToken, verifyRole('admin'), borrowController.acceptBorrowRequest)
+router.post('/borrows/returns/:isbn', verifyToken, verifyRole('admin'), borrowController.returnBorrowedBook)  
 
 module.exports = router
