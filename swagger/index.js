@@ -7,6 +7,8 @@ const adminUsers = require('./paths/admin-users')
 const adminBooks = require('./paths/admin-books')
 const books = require('./paths/books')
 const googleAuth =  require('./paths/google-auth')
+const borrows = require('./paths/borrows')
+const adminBorrows = require('./paths/admin-borrows')
 
 module.exports = {
   "components": {
@@ -46,8 +48,10 @@ module.exports = {
   "paths": {
     ...users,
     ...books,
+    ...borrows,
     ...adminUsers,
     ...adminBooks,
+    ...adminBorrows,
     ...auth,
     ...googleAuth
   } 
