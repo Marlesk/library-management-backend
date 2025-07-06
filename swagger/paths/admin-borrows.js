@@ -79,7 +79,7 @@ module.exports = {
           description: "Borrow request accepted successfully"
         },
         404: {
-          description: "No pending borrow request found for the given code"
+          description: "Invalid borrow code"
         },
         403: {
           description: "Access denied. Only admins can access this resource or token is missing"
@@ -112,10 +112,7 @@ module.exports = {
           description: "Book returned successfully"
         },
         404: {
-          description: "Book not found"
-        },
-        400: {
-          description: "No active borrow record found for this book"
+          description: "Invalid isbn"
         },
         403: {
           description: "Access denied. Only admins can access this resource or token is missing"
