@@ -4,6 +4,8 @@ const app = require('../app')
 const getUserToken = require('../helpers/getUserToken')
 const getExpiredUserToken = require('../helpers/getExpiredUserToken')
 const userService = require('../services/user.service')
+const User = require('../models/user.model')
+const bcrypt = require('bcrypt')
 
 describe('Request for /api/users/register', () => {
 
@@ -53,6 +55,18 @@ describe('Request for /api/users/register', () => {
   })
 
   it('An admin user already exists', async() => {
+    const existing = await User.findOne({ username: 'admin' });
+        if (!existing) {
+          const hashedPassword = await bcrypt.hash('Test123!', 10);
+          await User.create({
+            firstname: 'Maria',
+            lastname: 'Markaki',
+            username: 'admin',
+            email: 'admin@aueb.gr',
+            password: hashedPassword,
+            role: 'admin'
+          })
+        }
     const res = await request(app)
       .post('/api/users/register')
       .send({
@@ -228,7 +242,7 @@ describe('Request for /api/users/profile', () => {
     expect(res.body.status).not.toBeTruthy()
   })
 
-   it('Paaword format is not correct', async() => {
+   it('Password format is not correct', async() => {
     const res = await request(app)
       .patch('/api/users/profile')
       .set('Authorization', `Bearer ${userToken}`)

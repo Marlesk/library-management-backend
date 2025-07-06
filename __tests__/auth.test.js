@@ -4,12 +4,29 @@ const request = require('supertest')
 const app = require('../app')
 const userService = require('../services/user.service')
 const authService = require('../services/auth.service')
+const User = require('../models/user.model')
+const bcrypt = require('bcrypt')
 
 jest.mock('../services/auth.service')
 
 
 
 describe('Request for /api/auth/login', () => {
+
+  beforeAll(async () => {
+    const existing = await User.findOne({ username: 'admin' });
+    if (!existing) {
+      const hashedPassword = await bcrypt.hash('Test123!', 10);
+      await User.create({
+        firstname: 'Maria',
+        lastname: 'Markaki',
+        username: 'admin',
+        email: 'admin@aueb.gr',
+        password: hashedPassword,
+        role: 'admin'
+      })
+    }
+  })
 
   it('Success in logging', async() => {
     const res = await request(app)

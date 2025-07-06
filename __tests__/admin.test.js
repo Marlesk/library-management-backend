@@ -1,4 +1,5 @@
 // npx jest admin.test.js
+// npm test -- --runInBand
 
 const request = require('supertest')
 const app = require('../app')

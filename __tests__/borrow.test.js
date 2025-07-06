@@ -7,6 +7,8 @@ const Book = require('../models/book.model')
 const User = require('../models/user.model')
 const Borrow = require('../models/borrow.model')
 const authService = require('../services/auth.service')
+const getAdminToken = require('../helpers/getAdminToken')
+const borrowService = require('../services/borrow.service')
 
 describe('Requset for /api/borrows', () => {
 
@@ -162,4 +164,91 @@ describe('Requset for /api/borrows', () => {
     expect(res.body.status).not.toBeTruthy()
   })
  
+})
+
+describe('Request for /api/admin/borrows', () => {
+  let adminToken
+  beforeAll(async() => {
+    adminToken = await getAdminToken()
+  })
+
+  it('Borrow records fetched successfully', async() => {
+    const res = await request(app)
+      .get('/api/admin/borrows')
+      .set('Authorization', `Bearer ${adminToken}`)
+    
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
+  })
+
+  it('No returned records found', async() => {
+    const res = await request(app)
+      .get('/api/admin/borrows/?status=returned')
+      .set('Authorization', `Bearer ${adminToken}`)
+    
+    expect(res.statusCode).toBe(404)
+    expect(res.body.status).not.toBeTruthy()
+  })
+
+})
+
+describe('Request for /api/admin/borrows/accept/:code', () => {
+  
+  let adminToken
+  beforeAll(async() => {
+    adminToken = await getAdminToken()
+  })
+  
+  it('Borrow request with code accepted successfully', async() => {
+    const result = await borrowService.findBorrowCode()
+    const res = await request(app)
+      .post('/api/admin/borrows/accept/'+ result.borrowCode)
+      .set('Authorization', `Bearer ${adminToken}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
+  })
+
+  it('Invalid borrow code', async () => {
+    const invalidCode = 'INVALIDCODE123'
+
+    const res = await request(app)
+      .post('/api/admin/borrows/accept/' + invalidCode)
+      .set('Authorization', `Bearer ${adminToken}`)
+
+    expect(res.statusCode).toBe(404)
+    expect(res.body.status).not.toBeTruthy()
+  })
+
+})
+
+
+describe('Request for /api/admin/borrows/returns/:isbn', () => {
+  let adminToken
+  beforeAll(async() => {
+    adminToken = await getAdminToken()
+  })
+  
+  it('Book return completed successfully', async() => {
+    const result = await borrowService.findBorrowIsbn()
+    const res = await request(app)
+      .post('/api/admin/borrows/returns/'+ result.isbn)
+      .set('Authorization', `Bearer ${adminToken}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
+  })
+
+   it('Invalid isbn', async () => {
+    const invalidIsbn = '451258'
+
+    const res = await request(app)
+      .post('/api/admin/borrows/returns/' + invalidIsbn)
+      .set('Authorization', `Bearer ${adminToken}`)
+
+    expect(res.statusCode).toBe(404)
+    expect(res.body.status).not.toBeTruthy()
+  })
+
+
 })
