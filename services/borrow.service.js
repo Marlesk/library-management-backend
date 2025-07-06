@@ -76,7 +76,7 @@ exports.getBorrowBooks = async(userId, status) => {
 
 
 // For Admin
-exports.getAllRecordsBooks = async (status) => {
+exports.getAllRecordsBooks = async(status) => {
   const query = {}
 
   if (status === 'requested') query.status = 'requested'
@@ -96,7 +96,7 @@ exports.acceptRequest = async (code) => {
   const borrow = await Borrow.findOne({borrowCode: code, status: 'requested'}).populate('bookId')
                                           .populate({path: 'userId', select: 'firstname lastname email'})
   if (!borrow) {
-    throw new apiError(404, 'No pending borrow request found for the given code')
+    throw new apiError(404, 'Invalid borrow code')
   }
   
   borrow.status = 'borrowed'
@@ -106,9 +106,10 @@ exports.acceptRequest = async (code) => {
   return borrow
 }
 
-// Register book return
-exports.returnBook = async (isbn) => {
-  if (!isbn) {
+// Return book 
+exports.returnBook = async(isbn) => {
+
+  if (!isbn?.trim()) {
     throw new apiError(400, 'ISBN is a required field')
   }
 
@@ -119,10 +120,7 @@ exports.returnBook = async (isbn) => {
 
   const borrow = await Borrow.findOne({bookId: book._id, status: 'borrowed'}).populate('bookId')
                                   .populate({path: 'userId', select: 'firstname lastname email'})
-  if (!borrow) {
-    throw new apiError(400, 'No active borrow record found for this book')
-  } 
-  
+                                  
   borrow.status = 'returned'
   borrow.returnDate = new Date()
   await borrow.save()
@@ -131,6 +129,18 @@ exports.returnBook = async (isbn) => {
   await book.save()
 
   return borrow
+}
+
+//Find Borrow Code 
+/* istanbul ignore next */
+exports.findBorrowCode = async() => {
+  return await Borrow.findOne({ status: 'requested'})
+}
+
+/* istanbul ignore next */
+exports.findBorrowIsbn = async() => {
+  const borrow =  await Borrow.findOne({ status: 'borrowed'})
+  return await Book.findOne({ _id: borrow.bookId})
 }
 
 

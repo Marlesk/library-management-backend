@@ -1,16 +1,18 @@
 const authService = require('../services/auth.service')
 const User = require('../models/user.model') 
+const bcrypt = require('bcrypt')
 
 const getAdminToken = async () => {
   let user = await User.findOne({ username: 'admin' })
 
   if (!user) {
+    const hashedPassword = await bcrypt.hash('Test123!', 10)
     user = await User.create({
-      firtname: 'Maria',
+      firstname: 'Maria',
       lastname: 'Markaki',
       username: 'admin',
       email: 'admin@aueb.gr',
-      password: 'Test123!', 
+      password: hashedPassword, 
       role: 'admin'
     })
   }

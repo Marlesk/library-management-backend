@@ -15,6 +15,7 @@ exports.generateAccessToken = async(user) => {
   return jwt.sign(payload, secret, options)
 }
 
+/* istanbul ignore next */
 exports.googleAuth = async(code) => {
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
