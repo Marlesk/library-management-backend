@@ -4,7 +4,7 @@ const logger = require('./loggers/logger')
 
 beforeAll(async() => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI)
+    await mongoose.connect(process.env.MONGODB_URI_TEST)
     console.log('Connection to MongoDB for Jest (before all tests)')
   } catch (error) {
     console.log("Failed to connect to MongoDB for Jest", error)
