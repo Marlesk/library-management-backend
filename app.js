@@ -23,6 +23,9 @@ app.use('/api/books', book)
 const borrow = require('./routes/borrow.routes')
 app.use('/api/borrows', borrow)
 
+const contact = require('./routes/contact.routes')
+app.use('/api/contact', contact)
+
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger')
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, 
