@@ -29,6 +29,10 @@ module.exports = [
     "description": "Endpoints for managing borrowed books (Admin only)"
   },
 
+  {
+    "name": "Admin-Contact",
+    "description": "Endpoints for managing messages (Admin only)"
+  },
 
   {
     "name": "Auth",
@@ -38,5 +42,10 @@ module.exports = [
   {
     "name": "Google Login/Register",
     "description": "Endpoints for Google Authentication"
-  }
+  },
+
+  {
+    "name": "Contact",
+    "description": "Endpoints for the public contact form"
+  },
 ]
