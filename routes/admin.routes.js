@@ -6,7 +6,7 @@ const verifyToken = require('../middlewares/auth.middleware').verifyToken
 const adminController = require('../controllers/admin.controller')
 const bookController = require('../controllers/book.controller')
 const borrowController = require('../controllers/borrow.controller')
-
+const contactController = require('../controllers/contact.controller')
 
 // Manage Users
 router.get('/users', verifyToken, verifyRole('admin'), adminController.getAllUsers)
@@ -31,5 +31,9 @@ router.get('/borrows', verifyToken, verifyRole('admin'), borrowController.viewAl
 
 router.post('/borrows/accept/:code', verifyToken, verifyRole('admin'), borrowController.acceptBorrowRequest)
 router.post('/borrows/returns/:isbn', verifyToken, verifyRole('admin'), borrowController.returnBorrowedBook)  
+
+// View messages
+
+router.get('/messages', verifyToken, verifyRole('admin'), contactController.viewMessage)
 
 module.exports = router
