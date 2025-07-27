@@ -9,6 +9,7 @@ const books = require('./paths/books')
 const googleAuth =  require('./paths/google-auth')
 const borrows = require('./paths/borrows')
 const adminBorrows = require('./paths/admin-borrows')
+const contact = require('./paths/contact')
 
 module.exports = {
   "components": {
@@ -53,7 +54,8 @@ module.exports = {
     ...adminBooks,
     ...adminBorrows,
     ...auth,
-    ...googleAuth
+    ...googleAuth,
+    ...contact
   } 
 
 }
