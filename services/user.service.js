@@ -56,7 +56,7 @@ exports.createUser = async(data) => {
     email: data.email,
     role: data.role
   })
-
+  
   return await newUser.save()
 }
 
