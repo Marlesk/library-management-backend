@@ -1,6 +1,6 @@
 const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
-const apiError = require('../utils/ApiErrors')
+const ApiError = require('../utils/ApiErrors')
 const validations = require('../utils/validations')
 
 exports.createUser = async(data) => {
@@ -8,36 +8,36 @@ exports.createUser = async(data) => {
   // Έλεγχος για required πεδία
   for (let key in data) {
     if (!data[key]) {
-      throw new apiError(400, `${key} is required field`)
+      throw new ApiError(400, `${key} is required field`)
     }
   }
 
   // Έλεγχος για email validation
   if (!validations.emailFormat(data.email)) {
-    throw new apiError(400, "Email format is not correct.");
+    throw new ApiError(400, "Email format is not correct.");
   }
 
   // Έλεγχος για password validation
   if (!validations.passwordFormat(data.password)) {
-    throw new apiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
+    throw new ApiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
   }
 
   // Έλεγχος αν υπάρχει ήδη το username ή το email
   const existingUserByUsername = await User.findOne({ username: data.username })
   if (existingUserByUsername) {
-    throw new apiError(409, 'Username already exists')
+    throw new ApiError(409,  "Validation error", {username: "Username already exists"})
   }
 
   const existingUserByEmail = await User.findOne({ email: data.email })
   if (existingUserByEmail) {
-    throw new apiError(409, 'Email already exists')
+    throw new ApiError(409,"Validation error", {email: "Email already exists"})
   }
 
    // Έλεγχος αν πάει να δημιουργηθεί δεύτερος admin
   if (data.role === 'admin') {
     const existingAdmin = await User.findOne({ role: 'admin' })
     if (existingAdmin) {
-      throw new apiError(409, 'An admin user already exists. Cannot create a second one')
+      throw new ApiError(409, 'An admin user already exists. Cannot create a second one')
     }
   }
 
@@ -76,29 +76,29 @@ exports.updateUserProfile = async(userId, data) => {
   // Έλεγχος για required πεδία
   for (let key in data) {
     if (!allowedFields.includes(key)) {
-      throw new apiError(400, `${key} cannot be updated`);
+      throw new ApiError(400, `${key} cannot be updated`);
     }
     
     if (!data[key]) {
-      throw new apiError(400, `${key} is required field`)
+      throw new ApiError(400, `${key} is required field`)
     }
   }
 
   if (data.email) {
     if (!validations.emailFormat(data.email)) {
-      throw new apiError(400, "Email format is not correct.");
+      throw new ApiError(400, "Email format is not correct.");
     }
   }
 
   if (data.password) {
     if (!validations.passwordFormat(data.password)) {
-      throw new apiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
+      throw new ApiError(400, "Password format is not correct. At least 8 characters including uppercase, lowercase, number, and symbol (!, #, @, $)");
     }
   }
 
   const existingUserByEmail = await User.findOne({ email: data.email })
   if (existingUserByEmail) {
-    throw new apiError(409, 'Email already exists')
+    throw new ApiError(409, 'Email already exists')
   }
 
   if(data.email) updates.email = data.email

@@ -13,7 +13,7 @@ exports.register = async(req, res) => {
   } catch(error) {
      logger.error('Registration failed')
      const status = error.status || 500
-     res.status(status).json({ status: false, message: error.message || 'Internal Server Error'})
+     res.status(status).json({ status: false, errors: error.errors || error.message || 'Internal Server Error'})
   }
 }
 

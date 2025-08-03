@@ -18,7 +18,7 @@ exports.login = async(req, res) => {
 
     if (!result) {
       logger.error('User not found')
-      return res.status(404).json({ status: false, message: 'User not found' })
+      return res.status(404).json({ status: false, errors: {username: 'User not found'} })
     }
 
     const isMatch = await bcrypt.compare(password, result.password)
@@ -29,7 +29,7 @@ exports.login = async(req, res) => {
       res.status(200).json({status: true, data: token})
     } else {
       logger.error('Incorrect password')
-      res.status(404).json({status: false, message: 'Incorrect password'})
+      res.status(404).json({status: false, errors: {password: 'Incorrect password'} })
     }
     
   } catch(error) {
