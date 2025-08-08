@@ -1,6 +1,6 @@
 const Borrow = require('../models/borrow.model')
 const Book = require('../models/book.model')
-const apiError = require('../utils/ApiErrors')
+const ApiError = require('../utils/ApiErrors')
 
 
 // For Users
@@ -15,25 +15,25 @@ exports.findBorrowBook = async(userId) => {
 exports.requestBook = async(userId, isbn) => {
 
   if (!isbn) {
-    throw new apiError(400, 'ISBN is a required field')
+    throw new ApiError(400, 'ISBN is a required field')
   }
 
   const book = await this.findBookByIsbn(isbn)
   if (!book) {
-    throw new apiError(404, 'Book not found')
+    throw new ApiError(404, 'Book not found')
   }
 
   if (!book.available) {
-    throw new apiError(400, 'This book is currently unavailable (already borrowed)')
+    throw new ApiError(400, 'This book is currently unavailable (already borrowed)')
   }
 
   const existingBorrow = await this.findBorrowBook(userId)
   if (existingBorrow) {
     if (existingBorrow.status === 'requested') {
-      throw new apiError(400, 'You already have a pending borrow request');
+      throw new ApiError(400, 'You already have a pending borrow request');
     }
     if (existingBorrow.status === 'borrowed') {
-      throw new apiError(400, 'You already have a borrowed book. Return it before requesting another');
+      throw new ApiError(400, 'You already have a borrowed book. Return it before requesting another');
     }
   }
 
@@ -66,10 +66,7 @@ exports.getBorrowBooks = async(userId, status) => {
   else if (status === 'borrowed') query.status = 'borrowed'
   else if (status === 'returned') query.status = 'returned'
 
-  const records = await Borrow.find(query).populate('bookId')
-  if (!records || records.length === 0) {
-    throw new apiError(404, `No ${status || ''} records found`)
-  }
+  const records = await Borrow.find(query).populate('bookId').sort({ createdAt: -1 })
 
   return records
 }
@@ -90,13 +87,13 @@ exports.getAllRecordsBooks = async(status) => {
 // Accept a borrow request (change status to borrowed)
 exports.acceptRequest = async (code) => {
   if (!code) {
-    throw new apiError(400, 'Borrow Code is a required field')
+    throw new ApiError(400, 'Borrow Code is a required field')
   }
 
   const borrow = await Borrow.findOne({borrowCode: code, status: 'requested'}).populate('bookId')
                                           .populate({path: 'userId', select: 'firstname lastname email'})
   if (!borrow) {
-    throw new apiError(404, 'Invalid borrow code')
+    throw new ApiError(404, 'Invalid borrow code')
   }
   
   borrow.status = 'borrowed'
@@ -110,12 +107,12 @@ exports.acceptRequest = async (code) => {
 exports.returnBook = async(isbn) => {
 
   if (!isbn?.trim()) {
-    throw new apiError(400, 'ISBN is a required field')
+    throw new ApiError(400, 'ISBN is a required field')
   }
 
   const book = await Book.findOne({isbn})
   if (!book) {
-    throw new apiError(404, 'Book not found')
+    throw new ApiError(404, 'Book not found')
   }
 
   const borrow = await Borrow.findOne({bookId: book._id, status: 'borrowed'}).populate('bookId')

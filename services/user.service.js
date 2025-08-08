@@ -98,7 +98,7 @@ exports.updateUserProfile = async(userId, data) => {
 
   const existingUserByEmail = await User.findOne({ email: data.email })
   if (existingUserByEmail) {
-    throw new ApiError(409, 'Email already exists')
+    throw new ApiError(409,"Validation error", {email: "Email already exists"})
   }
 
   if(data.email) updates.email = data.email

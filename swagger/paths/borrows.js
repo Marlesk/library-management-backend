@@ -63,6 +63,7 @@ module.exports = {
                 type: "object",
                 properties: {
                   _id: {type: "string"},
+                  borrowCode: {type: "string"},
                   userId: {type: "string"},
                   bookId: { $ref: "#/components/schemas/Book"},
                   status: {type: "string", enum: ['requested', 'borrowed', 'returned']},
