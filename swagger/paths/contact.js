@@ -10,9 +10,19 @@ module.exports = {
           description: "A JSON array containing all submitted messages",
           content: {
             "application/json": {
-                schema: {
-                  type: "array",
-                  items: {$ref: "#/components/schemas/Contact"}
+              schema: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    firstname: { type: "string" },
+                    lastname: { type: "string" },
+                    username: { type: "string" },
+                    email: { type: "string", "format": "email" },
+                    message: { typr: "string" },
+                    createdAt: { type: "string"}
+                  },
+                }
               }
             }
           }
