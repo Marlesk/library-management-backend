@@ -1,6 +1,6 @@
 const Book = require('../models/book.model')
 const axios = require('axios')
-const apiError = require('../utils/ApiErrors')
+const ApiError = require('../utils/ApiErrors')
 
 exports.findBook = async(title, author) => {
   const response = await axios.get('https://www.googleapis.com/books/v1/volumes', {
@@ -37,13 +37,13 @@ exports.createBook = async(data) => {
 
     if ( value === undefined || value === null ||
      (typeof value === 'string' && !value.trim())  ||  (Array.isArray(value) && value.length === 0)) {
-      throw new apiError(400, `${key} is required field`)
+      throw new ApiError(400, `${key} is required field`)
     }
 
   }
 
   const duplicateBook = await Book.findOne({ isbn: data.isbn })
-  if (duplicateBook) throw new apiError(409, 'Book already exists')
+  if (duplicateBook) throw new ApiError(409, "Conflict error", {isbn: 'Book already exists'} )
 
   // if (data.author && typeof data.author === 'string') {
   //   data.author = [data.author]
@@ -57,7 +57,8 @@ exports.createBook = async(data) => {
     isbn: data.isbn,
     description: data.description,
     genre: data.genre,
-    coverImage: data.coverImage
+    coverImage: data.coverImage,
+    page: data.page
   })
   
   return await newBook.save()
@@ -76,11 +77,11 @@ exports.updateBookDetails = async(isbn, data) => {
 
   // Έλεγχος για τα κενα υποχρεωτικά στα πεδία αν υπάρχουν
   if ('title' in data && !data.title.trim()) {
-    throw new apiError(400, 'Title cannot be empty')
+    throw new ApiError(400, 'Title cannot be empty')
   }
 
   if ('author' in data && (!Array.isArray(data.author) || data.author.length === 0)) {
-    throw new apiError(400, 'Author cannot be empty')
+    throw new ApiError(400, 'Author cannot be empty')
   }
 
   return await Book.findOneAndUpdate( {isbn: isbn}, { $set: data }, { new: true, runValidators: true } )
@@ -103,6 +104,10 @@ exports.findBooksByAuthor = async(author) => {
   return await Book.find({
     author: { $regex: cleanedAuthor, $options: 'i' }
   })
+}
+
+exports.findBookByIsbn = async(isbn) => {
+  return await Book.findOne({ isbn })
 }
 
 /* istanbul ignore next */
