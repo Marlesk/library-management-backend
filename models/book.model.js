@@ -20,7 +20,7 @@ let bookSchema = new Schema({
   },
 
   year: {
-    type: Number,
+    type: String,
     default: ''
   },
 
@@ -42,7 +42,7 @@ let bookSchema = new Schema({
   },
 
   page: {
-    type: Number
+    type: String
   },
 
   coverImage: {
