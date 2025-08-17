@@ -75,13 +75,25 @@ exports.getBorrowBooks = async(userId, status) => {
 // For Admin
 exports.getAllRecordsBooks = async(status) => {
   const query = {}
+  let sortField = 'createdAt'
 
-  if (status === 'requested') query.status = 'requested'
-  else if (status === 'borrowed') query.status = 'borrowed'
-  else if (status === 'returned') query.status = 'returned'
+  if (status === 'requested') {
+    query.status = 'requested'
+    sortField = 'createdAt'
+  }
+  else if (status === 'borrowed') {
+    query.status = 'borrowed'
+    sortField = 'borrowDate'
+  } 
+  else if (status === 'returned') {
+    query.status = 'returned'
+    sortField = 'returnDate'
+  } 
 
-  return await Borrow.find(query).populate('bookId')
-          .populate({path: 'userId', select: 'firstname lastname email'})
+  return await Borrow.find(query)
+          .populate({path: 'bookId', select:'-_id title author isbn coverImage'})
+          .populate({path: 'userId', select: '-_id firstname lastname email'})
+          .sort({[sortField]: -1})
 }
 
 // Accept a borrow request (change status to borrowed)
@@ -90,8 +102,10 @@ exports.acceptRequest = async (code) => {
     throw new ApiError(400, 'Borrow Code is a required field')
   }
 
-  const borrow = await Borrow.findOne({borrowCode: code, status: 'requested'}).populate('bookId')
-                                          .populate({path: 'userId', select: 'firstname lastname email'})
+  const borrow = await Borrow.findOne({borrowCode: code, status: 'requested'})
+                                .populate({path: 'bookId', select:'-_id title author isbn coverImage'})
+                                .populate({path: 'userId', select:'-_id firstname lastname email'})
+                             
   if (!borrow) {
     throw new ApiError(404, 'Invalid borrow code')
   }
@@ -115,9 +129,10 @@ exports.returnBook = async(isbn) => {
     throw new ApiError(404, 'Book not found')
   }
 
-  const borrow = await Borrow.findOne({bookId: book._id, status: 'borrowed'}).populate('bookId')
+  const borrow = await Borrow.findOne({bookId: book._id, status: 'borrowed'})
+                                  .populate({path: 'bookId', select:'-_id title author isbn coverImage'})
                                   .populate({path: 'userId', select: 'firstname lastname email'})
-                                  
+
   borrow.status = 'returned'
   borrow.returnDate = new Date()
   await borrow.save()
