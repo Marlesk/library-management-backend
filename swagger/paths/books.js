@@ -107,5 +107,48 @@ module.exports = {
         }
       }
     }
+  },
+
+  "/api/books/isbn/{isbn}": {
+    get: {
+      tags: ["Books"],
+      summary: "Retrieve book by isbn",
+      description: "Returns a book that match the specified isbn.",
+      parameters: [
+        {
+          name: "isbn",
+          in: "path",
+          required:true,
+          description: "The isbn of the book to be retrieved",
+          schema: {
+            type: "string"
+          }
+        }
+      ],
+      responses: {
+        200: {
+          description: "Book retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  data: {$ref: "#/components/schemas/Book"}
+                }
+              }
+            }
+          }
+        },
+        404: {
+          description: "No book found with the given isbn"
+        },
+        403: {
+          description: "Access denied. Token is missing"
+        },
+        401: {
+          description: "Authentication failed. Token is invalid or has expired"
+        }
+      }
+    }
   }
 }
