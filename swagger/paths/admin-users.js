@@ -10,9 +10,21 @@ module.exports = {
           description: "A JSON array containing user details",
           content: {
             "application/json": {
-                schema: {
-                  type: "array",
-                  items: {$ref: "#/components/schemas/User"}
+              schema: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    firstname: { type: "string" },
+                    lastname: { type: "string" },
+                    username: { type: "string" },
+                    email: { type: "string", "format": "email" },
+                    role: {type: "string",
+                            enum: ["admin", "user"],
+                            default: "user"},
+                    createdAt: { type: "string"}
+                  },
+                }
               }
             }
           }
@@ -49,7 +61,17 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/User"
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    firstname: { type: "string" },
+                    lastname: { type: "string" },
+                    username: { type: "string" },
+                    email: { type: "string", "format": "email" },
+                    createdAt: { type: "string"}
+                  },
+                }
               }
             }
           }
@@ -119,7 +141,17 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/User"
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    firstname: { type: "string" },
+                    lastname: { type: "string" },
+                    username: { type: "string" },
+                    email: { type: "string", "format": "email" },
+                    createdAt: { type: "string"}
+                  },
+                }
               }
             }
           }
