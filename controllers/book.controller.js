@@ -18,7 +18,8 @@ exports.searchBook = async(req, res) => {
     if (result.length > 0) {
       logger.info('Find the book successfully via Google Books API')
       res.status(200).json({ status: true, data: result })
-    }
+    } 
+
   } catch(error) {
     logger.error('Problem in finding book')
     res.status(500).json({ status: false, message: 'Error fetching books from Google Library'})
@@ -38,7 +39,7 @@ exports.addBook = async(req, res) => {
   } catch(error) {
     logger.error('Problem in adding book')
     const status = error.status || 500
-    res.status(status).json({ status: false, message: error.message || 'Internal Server Error' })
+    res.status(status).json({ status: false, errors: error.errors || error.message || 'Internal Server Error' })
   }
 }
 
@@ -98,7 +99,7 @@ exports.getAllBooks = async(req, res) => {
   }
 }
 
-exports.getBookByTitle = async(req, res) => {
+exports.getBooksByTitle = async(req, res) => {
   logger.info('Search a book by title')
   const title = req.params.title
 
@@ -132,6 +133,27 @@ exports.getBooksByAuthor = async(req, res) => {
       logger.error('Author not exists')
       res.status(404).json({ status: false, message: 'Author not exists'})
     }
+  } catch(error) {
+    logger.info('Problem in getting book')
+    res.status(500).json({ status: false, message: 'Failed to get the book due to server error', error: error.message})
+  }
+}
+
+exports.getBookByIsbn = async(req, res) => {
+  logger.info('Search book by isbn')
+  const isbn = req.params.isbn
+
+  try {
+    const result = await bookService.findBookByIsbn(isbn)
+
+    if (!result) {
+      logger.error('Book not exists')
+      res.status(404).json({ status: false, message: 'Book not exists'})
+    }
+
+    logger.info('Details book by isbn')
+    res.status(200).json({ status: true, data: result })
+
   } catch(error) {
     logger.info('Problem in getting book')
     res.status(500).json({ status: false, message: 'Failed to get the book due to server error', error: error.message})
