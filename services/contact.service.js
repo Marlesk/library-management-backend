@@ -1,18 +1,18 @@
 const Contact = require('../models/contact.model')
-const apiError = require('../utils/ApiErrors')
+const ApiError = require('../utils/ApiErrors')
 const validations = require('../utils/validations')
 
 exports.sendMessage = async(data) => {
   // Έλεγχος για required πεδία
     for (let key in data) {
       if (!data[key]) {
-        throw new apiError(400, `${key} is required field`)
+        throw new ApiError(400, `${key} is required field`)
       }
     }
   
     // Έλεγχος για email validation
     if (!validations.emailFormat(data.email)) {
-      throw new apiError(400, "Email format is not correct.");
+      throw new ApiError(400, "Email format is not correct.");
     }
 
     const newContact = new Contact({
@@ -26,5 +26,5 @@ exports.sendMessage = async(data) => {
 }
 
 exports.getMessage = async() => {
-  return Contact.find().sort({ createdAt : -1})
+  return Contact.find().select('-_id firstname lastname email message createdAt').sort({ createdAt : -1})
 }
