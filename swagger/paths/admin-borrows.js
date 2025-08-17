@@ -23,23 +23,33 @@ module.exports = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                properties: {
-                  _id: {type: "string"},
-                  userId: {
-                    type: "object",
-                    properties: {
-                      _id: {type: "string"},
-                      firstname: {type: "string"},
-                      lastname: {type: "string"},
-                      email: {type: "string", format: "email"}
-                    }
-                  },
-                  bookId: { $ref: "#/components/schemas/Book"},
-                  status: {type: "string", enum: ['requested', 'borrowed', 'returned']},
-                  borrowCode: {type: "string"},
-                  borrowDate: {type: "string", format: "date-time"},
-                  returnDate: {type: "string", format: "date-time", nullable: true},
+                type: "array",
+                items: {
+                  properties: {
+                    _id: {type: "string"},
+                    userId: {
+                      type: "object",
+                      properties: {
+                        firstname: {type: "string"},
+                        lastname: {type: "string"},
+                        email: {type: "string", format: "email"}
+                      }
+                    },
+                    bookId: { 
+                      type: "object",
+                      properties: {
+                        title: {type: "string"},
+                        author: {type: "string"},
+                        isbn: {type: "string"},
+                        coverImage: {type: "string"},
+                      }
+                    },
+                    status: {type: "string", enum: ['requested', 'borrowed', 'returned']},
+                    borrowCode: {type: "string"},
+                    borrowDate: {type: "string", format: "date-time"},
+                    returnDate: {type: "string", format: "date-time", nullable: true},
+                    updatedAt: {type: "string", format: "date-time"},
+                  }
                 }
               }
             }
