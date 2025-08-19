@@ -1,23 +1,28 @@
 module.exports = {
 
   "api/auth/google/callback": {
-    get: {
+    post: {
       security: [],
-      tags: ["Google Login/Register"],
-      summary: "Google OAuth login/register",
-      description: "Login or register user via Google OAuth 2.0",
-      parameters: [
-        {
-          name: "code",
-          in: "query",
-          required: true,
-          schema: { type: "string" },
-          description: "Authorization code returned by Google"
+      tags: ["Google Login"],
+      summary: "Google OAuth login",
+      description: "Login user via Google OAuth 2.0. Authorization code returned by Google",
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                code: { type: "string" }
+              },
+              required: ["code"]
+            }
+          }
         }
-      ],
+      },
       responses: {
         200: {
-          description: "Login/register successfully. JWT token returned successfully"
+          description: "Login successfully. JWT token returned successfully"
         }, 
         400: {
           description: 'Authorization code is missing'
@@ -26,8 +31,8 @@ module.exports = {
           description: 'Problem in Google login'
         },
         409: {
-          description: 'Email already registered with password'
-        }   
+          description: 'Email already registered with password. Please login manually'
+        }
       }
     }
   }
