@@ -41,7 +41,7 @@ exports.login = async(req, res) => {
 
 exports.googleLogin = async(req, res) => {
   logger.info('Google Login')
-  const code = req.query.code
+  const { code } = req.body
 
   if (!code) {
     logger.error('Authorization code is missing')
@@ -60,6 +60,6 @@ exports.googleLogin = async(req, res) => {
   } catch (error) {
     logger.error('Error during Google login:', error)
     const status = error.status || 500
-    res.status(status).json({ status: false, message: error.message || 'Google authentication failed'})
+    res.status(status).json({ status: false, errors: error.errors || error.message  || 'Google authentication failed'})
   }
 }
