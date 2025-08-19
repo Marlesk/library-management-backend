@@ -5,7 +5,7 @@ app.use(express.urlencoded({ extended: true }))
 
 const cors = require('cors')
 app.use(cors({
-  origin: 'https://libraryappfrontend.vercel.app/',
+  origin: 'https://libraryappfrontend.vercel.app',
   credentials: true
 }))
 
