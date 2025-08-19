@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { OAuth2Client } = require('google-auth-library')
 const User = require('../models/user.model')
-const apiError = require('../utils/ApiErrors')
+const ApiError = require('../utils/ApiErrors')
 
 exports.generateAccessToken = async(user) => {
   const secret = process.env.TOKEN_SECRET 
@@ -39,7 +39,7 @@ exports.googleAuth = async(code) => {
   let user = await User.findOne({ email })
 
   if (user && user.password) {
-    throw new apiError(409, 'Email already registered with password. Please login manually')
+    throw new ApiError(409,  "Conflict error", {email: 'Email already registered with password. Please login manually'})
   }
 
   // Αν δεν υπάρχει, δημιουργία νέου χρήστη
