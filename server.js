@@ -10,7 +10,7 @@ const connectDB = async() => {
   try {
     await mongoose.connect(process.env.MONGODB_URI)
     logger.info("Connected to MongoDB")
-    app.listen(port, () => {
+    app.listen(port,() => {
       logger.info(`Server is running on port ${port}`)
     })
   } catch(error) {
