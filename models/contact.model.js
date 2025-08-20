@@ -29,7 +29,7 @@ let contactSchema = new Schema({
     trim: true
   }
 }, {
-  collection: 'contact',
+  collection: 'messages',
   timestamps: true
 })
 
