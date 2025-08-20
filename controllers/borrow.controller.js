@@ -42,13 +42,10 @@ exports.viewAllRecordsBooks = async(req, res) => {
   try {
     const result = await borrowService.getAllRecordsBooks(status)
 
-    if (result.length === 0) {
-      logger.error('No borrow records found')
-      return res.status(404).json({ status: false, message: `No ${status || ''} records found` });
-    }
-
     logger.info('Borrow records fetched successfully')
-    res.status(200).json({ status: true, message: 'Borrow records fetched successfully', data: result })
+    res.status(200).json({ status: true,  message: result.length > 0 
+        ? 'Borrow records fetched successfully' 
+        : `No ${status || ''} records found`, data: result })
   } catch (error) {
     logger.error('Failed to fetch borrow records')
     res.status(500).json({ status: false, message: 'Internal Server Error', error: error.message })
