@@ -1,5 +1,10 @@
 # 📚 Library Management Backend
 
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
+[![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white)](http://localhost:[your-port]/api-docs)
+
 A backend application for managing a digital library system, built with **Node.js** and **MongoDB**.  
 It provides authentication, role-based access (User / Admin), book management, and borrowing features.
 
