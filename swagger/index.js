@@ -25,7 +25,7 @@ module.exports = {
   "info": {
     "version": "1.0.0",
     "title": "Library App",
-    "description": "An application for creating users and choosing books",
+    "description": "Library application API for managing users and books. Admin user can perform additional management tasks such as adding, editing or deleting books, managing requests.",
     "contact": {
       "name": "API Support",
       "url": "https://aueb.gr",
@@ -33,14 +33,9 @@ module.exports = {
     }
   },
 
-  "servers": [
+"servers": [
     {
-      url: "http://localhost:3000",
-      description: "Local server"
-    },
-    {
-      url: "https://library-app-backend-0zvy.onrender.com/",
-      description: "Production server"
+      url: process.env.API_URI
     }
   ],
 
