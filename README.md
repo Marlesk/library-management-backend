@@ -20,7 +20,7 @@ It provides authentication, role-based access (User / Admin), book management, a
 ### 🛠️ Admin
 - Single admin user (must be created directly in the database).
 - Dedicated dashboard with the ability to:
-  - Add (manually or via **Google Books API**), edit, and delete books.
+  - View, add (manually or via **Google Books API**), edit, and delete books.
   - View all users and delete accounts if necessary.
   - Manage borrowing requests:
     - Approve requests with a **borrow code**.
