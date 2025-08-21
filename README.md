@@ -99,6 +99,7 @@ http://localhost:[your-port]/api-docs
 ## 🧪 Testing
 
 Tests are written with **Jest**.
+
 Run them with:
 
 ``` bash 
@@ -108,6 +109,7 @@ npm test
 ## 📜 License
 
 This project is licensed under the MIT License.
+
 See the [LICENSE](./LICENSE) file for details.
 
 ## 👨‍💻 Author
