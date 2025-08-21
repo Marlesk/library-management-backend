@@ -39,8 +39,8 @@ module.exports = {
       description: "Local server"
     },
     {
-      url: "http://www.backend.aueb.gr",
-      description: "Testing server"
+      url: "https://library-app-backend-0zvy.onrender.com/",
+      description: "Production server"
     }
   ],
 
