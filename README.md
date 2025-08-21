@@ -89,7 +89,6 @@ After running the server, visit:
 ``` bash
 http://localhost:[your-port]/api-docs
 ```
-Or check the swagger folder in the repository.
 
 ## 🧪 Testing
 
