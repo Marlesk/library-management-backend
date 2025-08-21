@@ -5,7 +5,7 @@ app.use(express.urlencoded({ extended: true }))
 
 const cors = require('cors')
 app.use(cors({
-  origin: process.env.REDIRECT_URI,
+  origin: [ process.env.API_URI, process.env.REDIRECT_URI ],
   credentials: true
 }))
 
