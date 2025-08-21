@@ -8,7 +8,7 @@ It provides authentication, role-based access (User / Admin), book management, a
 ## 🚀 Features
 
 ### 👤 Users
-- Register and log in (also via **Google Login**)..
+- Register and log in (also via **Google Login**).
 - View all available books in the library.
 - Request one book at a time and receive a unique **borrow code**.
 - Pick up requested books from the library using the borrow code.
