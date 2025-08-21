@@ -2,7 +2,6 @@
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 [![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white)](http://localhost:[your-port]/api-docs)
 
 A backend application for managing a digital library system, built with **Node.js** and **MongoDB**.  
@@ -24,7 +23,7 @@ It provides authentication, role-based access (User / Admin), book management, a
 - View and update profile (email only).
 
 ### 🛠️ Admin
-- Single admin user (must be created directly in the database).
+- Single admin can be created via registration by setting `role: admin` in the request body.
 - Dedicated dashboard with the ability to:
   - View, add (manually or via **Google Books API**), edit, and delete books.
   - View all users and delete accounts if necessary.
@@ -105,12 +104,6 @@ Run them with:
 ``` bash 
 npm test
 ```
-
-## 📜 License
-
-This project is licensed under the MIT License.
-
-See the [LICENSE](./LICENSE) file for details.
 
 ## 👨‍💻 Author
 
