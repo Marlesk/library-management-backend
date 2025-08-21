@@ -82,18 +82,18 @@ REDIRECT_URI = your-redirect-uri
 
 ## 📖 API Documentation
 
-Full API documentation is available via Swagger UI.
+Full API documentation is available **via Swagger UI**.
 
 After running the server, visit:
 
 ``` bash
-http://localhost:PORT/api-docs
+http://localhost:[your-port]/api-docs
 ```
 Or check the swagger folder in the repository.
 
 ## 🧪 Testing
 
-Tests are written with Jest.
+Tests are written with **Jest**.
 Run them with:
 
 ``` bash 
