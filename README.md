@@ -9,6 +9,7 @@ It provides authentication, role-based access (User / Admin), book management, a
 
 ### 👤 Users
 - Register and log in (also via **Google Login**).
+- Receive a **JWT token** upon successful login for authenticating API requests.
 - View all available books in the library.
 - Request one book at a time and receive a unique **borrow code**.
 - Pick up requested books from the library using the borrow code.
@@ -73,11 +74,11 @@ PORT = your-port
 API_URI = your-api-uri  # Base URI for the API; used for CORS configuration and Swagger documentation
 MONGODB_URI = your-mongodb-uri
 MONGODB_URI_TEST = your-mongodb-test-uri
-TOKEN_SECRET = your-jwt-secret
+TOKEN_SECRET = your-jwt-secret  # Secret key used to sign JWT tokens for authentication
 GOOGLE_BOOKS_API_KEY = your-google-books-api-key
 GOOGLE_CLIENT_ID = your-google-client-id
 GOOGLE_CLIENT_SECRET = your-google-client-secret
-REDIRECT_URI = your-redirect-uri
+REDIRECT_URI = your-redirect-uri # URI where Google redirects after successful authentication
 ```
 
 ## 📖 API Documentation
