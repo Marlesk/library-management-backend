@@ -106,7 +106,7 @@ Run them with:
 npm test
 ```
 
-## 👩 💻 Author
+## 👩‍💻 Author
 
 Developed by **Maria Leska**.
 Feel free to connect or open issues in this repository.
