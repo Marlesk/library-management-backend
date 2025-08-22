@@ -20,7 +20,8 @@ It provides authentication, role-based access (User / Admin), book management, a
 - Borrowing lifecycle:
   - `Request` → `Borrow` → `Return`
 - View personal borrowing history.
-- View and update profile (email only).
+- View, update profile (email only) and delete account.
+- Send messages via the **contact form** (no login required).
 
 ### 🛠️ Admin
 - Single admin can be created via registration by setting `role: admin` in the request body.
@@ -50,7 +51,7 @@ It provides authentication, role-based access (User / Admin), book management, a
 Clone the repository:
 
 ```bash
-git clone https://github.com/Marlesk/library-app-backend.git
+git clone https://github.com/Marlesk/library-management-backend.git
 cd library-management-backend
 ```
 Install dependencies:
