@@ -81,7 +81,8 @@ exports.deleteByIsbn = async(req, res) => {
     
   } catch (error) {
     logger.error("Problem in deleting book", error)
-    res.status(500).json({ status: false,  message: 'Failed to delete the book due to server error', error: error.message })
+    const status = error.status || 500
+    res.status(status).json({ status: false, errors: error.errors || error.message || 'Internal Server Error' })
   }
 }
 

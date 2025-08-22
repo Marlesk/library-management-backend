@@ -89,6 +89,11 @@ exports.updateBookDetails = async(isbn, data) => {
 }
 
 exports.removeBookByIsbn = async(isbn) => {
+  const book = await Book.findOne({ isbn })
+  if (!book.available) {
+    throw new ApiError(400, "Cannot delete a book that is currently borrowed or requested")
+  }
+
   return await Book.findOneAndDelete({isbn: isbn})
 }
 

@@ -1,6 +1,7 @@
 const User = require('../models/user.model')
 const validations = require('../utils/validations')
 const ApiError = require('../utils/ApiErrors')
+const Borrow = require('../models/borrow.model')
 
 exports.findAllUsers = async() => {
   return await User.find()
@@ -22,6 +23,19 @@ exports.findByEmail = async(email) => {
 }
 
 exports.findByUsernameAndDelete = async(username) => {
+  const user = await User.findOne({ username })
+  if (!user) return null
+
+  // Έλεγχος αν ο χρήστης έχει ενεργά borrows ή requests
+  const hasBorrows = await Borrow.exists({
+    userId: user._id,
+    status: { $in: ['requested', 'borrowed'] }
+  })
+
+  if (hasBorrows) {
+    throw new ApiError(400, "Cannot delete user with active borrows or requests")
+  }
+
   return await User.findOneAndDelete({username: username})
 }
 

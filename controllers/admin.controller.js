@@ -71,7 +71,8 @@ exports.deleteByUsername = async(req, res) => {
     }
   } catch (error) {
     logger.error("Problem in deleting user", error)
-    res.status(500).json({ status: false, message: 'Failed to delete the user' })
+    const status = error.status || 500
+    res.status(status).json({ status: false, errors: error.errors || error.message || 'Internal Server Error' })
   }
 }
 
