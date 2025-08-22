@@ -91,8 +91,8 @@ exports.getAllRecordsBooks = async(status) => {
   } 
 
   return await Borrow.find(query)
-          .populate({path: 'bookId', select:'-_id title author isbn coverImage'})
-          .populate({path: 'userId', select: '-_id firstname lastname email'})
+          .populate({path: 'bookId', select:'title author isbn coverImage'})
+          .populate({path: 'userId', select: 'firstname lastname email'})
           .sort({[sortField]: -1})
 }
 
