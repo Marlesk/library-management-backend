@@ -53,6 +53,7 @@ exports.deleteAccount = async(req, res) => {
     res.status(200).json({ status: true,  message: 'Your account deleted successfully'})
   } catch(error) {
     logger.error('Failed to delete your account')
-    res.status(500).json({ status: false, message: 'Internal Server Error' })
+    const status = error.status || 500
+    res.status(status).json({ status: false, errors: error.errors || error.message || 'Internal Server Error' })
   }
 }
