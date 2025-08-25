@@ -103,7 +103,7 @@ Tests are written with **Jest**.
 Run them with:
 
 ``` bash 
-npm test
+npm test -- --runInBand
 ```
 
 ## 👩‍💻 Author
