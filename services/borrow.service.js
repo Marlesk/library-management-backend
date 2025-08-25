@@ -1,6 +1,7 @@
 const Borrow = require('../models/borrow.model')
 const Book = require('../models/book.model')
 const ApiError = require('../utils/ApiErrors')
+const User = require('../models/user.model')
 
 
 // For Users
@@ -13,6 +14,11 @@ exports.findBorrowBook = async(userId) => {
 }
 
 exports.requestBook = async(userId, isbn) => {
+
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(400, 'Your account is no longer active');
+  }
 
   if (!isbn) {
     throw new ApiError(400, 'ISBN is a required field')
