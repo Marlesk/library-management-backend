@@ -124,6 +124,9 @@ module.exports = {
         200: {
           description: "User account deleted successfully",
         },
+        400: {
+          description: "Cannot delete your account. You have active borrowed book."
+        },
         401: {
           description: "Unauthorized. Invalid or expired token"
         },
