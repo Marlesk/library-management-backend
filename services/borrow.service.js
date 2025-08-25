@@ -50,7 +50,7 @@ exports.requestBook = async(userId, isbn) => {
     returnDate: null,
   })
 
-  const saved = await borrow.save()
+  await borrow.save()
 
   book.available = false
   await book.save()
