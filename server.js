@@ -2,8 +2,6 @@ const port = process.env.PORT || 5000
 const app = require('./app')
 const mongoose = require('mongoose')
 
-//const smartLogger = require('./loggers/smartLogger');
-
 const logger = require('./loggers/logger')
 
 const connectDB = async() => {
