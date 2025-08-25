@@ -104,7 +104,9 @@ describe('Request for /api/auth/login', () => {
 describe('Request for /api/auth/google/callback', () => {
 
   it('No code is provided', async () => {
-    const res = await request(app).get('/api/auth/google/callback')
+    const res = await request(app)
+      .post('/api/auth/google/callback')
+      .send({ code: ''})
 
     expect(res.statusCode).toBe(400)
     expect(res.body.status).not.toBeTruthy()
@@ -121,8 +123,8 @@ describe('Request for /api/auth/google/callback', () => {
     })
 
     const res = await request(app)
-      .get('/api/auth/google/callback')
-      .query({ code: 'dummycode' })
+      .post('/api/auth/google/callback')
+      .send({ code: 'dummycode' })
 
     expect(res.statusCode).toBe(200)
     expect(res.body.status).toBeTruthy()
@@ -132,8 +134,8 @@ describe('Request for /api/auth/google/callback', () => {
     authService.googleAuth.mockResolvedValue(null)
 
     const res = await request(app)
-      .get('/api/auth/google/callback')
-      .query({ code: 'dummycode' })
+      .post('/api/auth/google/callback')
+      .send({ code: 'dummycode' })
 
     expect(res.statusCode).toBe(401)
     expect(res.body.status).not.toBeTruthy()
@@ -145,8 +147,8 @@ describe('Request for /api/auth/google/callback', () => {
     authService.googleAuth.mockRejectedValue(err)
 
     const res = await request(app)
-      .get('/api/auth/google/callback')
-      .query({ code: 'dummycode' })
+      .post('/api/auth/google/callback')
+      .send({ code: 'dummycode' })
 
     expect(res.statusCode).toBe(409)
     expect(res.body.status).not.toBeTruthy()
@@ -156,8 +158,8 @@ describe('Request for /api/auth/google/callback', () => {
     authService.googleAuth.mockRejectedValue(new Error('Unexpected'))
 
     const res = await request(app)
-      .get('/api/auth/google/callback')
-      .query({ code: 'dummycode' })
+      .post('/api/auth/google/callback')
+      .send({ code: 'dummycode' })
 
     expect(res.statusCode).toBe(500)
     expect(res.body.status).not.toBeTruthy()

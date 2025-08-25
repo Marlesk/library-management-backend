@@ -150,8 +150,8 @@ describe('Requset for /api/borrows', () => {
       .get('/api/borrows/?status=borrowed')
       .set('Authorization', `Bearer ${userToken}`)
     
-    expect(res.statusCode).toBe(404)
-    expect(res.body.status).not.toBeTruthy()
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
   })
 
   it('No returned records found', async() => {
@@ -160,8 +160,8 @@ describe('Requset for /api/borrows', () => {
       .get('/api/borrows/?status=returned')
       .set('Authorization', `Bearer ${userToken}`)
     
-    expect(res.statusCode).toBe(404)
-    expect(res.body.status).not.toBeTruthy()
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
   })
  
 })
@@ -186,8 +186,8 @@ describe('Request for /api/admin/borrows', () => {
       .get('/api/admin/borrows/?status=returned')
       .set('Authorization', `Bearer ${adminToken}`)
     
-    expect(res.statusCode).toBe(404)
-    expect(res.body.status).not.toBeTruthy()
+    expect(res.statusCode).toBe(200)
+    expect(res.body.status).toBeTruthy()
   })
 
 })
