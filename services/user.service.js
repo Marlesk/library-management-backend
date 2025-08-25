@@ -2,6 +2,8 @@ const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 const ApiError = require('../utils/ApiErrors')
 const validations = require('../utils/validations')
+const Borrow = require('../models/borrow.model')
+const Book = require('../models/book.model')
 
 exports.createUser = async(data) => {
   
@@ -118,7 +120,28 @@ exports.updateUserProfile = async(userId, data) => {
 }
 
 exports.deleteUserProfile = async(userId) => {
-  return await User.findOneAndDelete({_id: userId})
+  const hasBorrows = await Borrow.exists({
+    userId: userId,
+    status: { $in: ['borrowed'] }
+  })
+  
+  if (hasBorrows) {
+    throw new ApiError(400, "Cannot delete your account. You have active borrowed book.")
+  }
+
+  const request = await Borrow.findOne({
+    userId: userId,
+    status: { $in: ['requested'] }
+  })
+
+  if (request) {
+   await Book.findOneAndUpdate(request.bookId, { available: true } )
+   await Borrow.findByIdAndDelete(request._id)
+  }
+
+  await User.findOneAndDelete({_id: userId})
+
+  return 
 }
 
 /* istanbul ignore next */
